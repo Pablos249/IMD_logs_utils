@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.pytest_tmp/
+.mypy_cache/
+
+# Virtual environment and editor
+.venv/
+.vscode/
+
+# Build artifacts
+build/
+dist/
+*.spec
+
+# Application local data
+portable_data/
+*.db
+*.sqlite
+*.sqlite3
+startup_profile.log
+importtime.log
+
+# Temporary folders
+.tmp/
+tmparjxofvu/
+tests/.tmp_*/
+tests/**/.tmp_*/
+
+# Local input and generated data
+input_data/
+ccs/
+clc/
+conditioning/
+"ekoen logs priv"/
+*.log
+*.log.*
+*.csv
+check_*.py
+count_*.py
+test_eos_parse.py
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <rect width="1200" height="520" fill="#f6f7fb"/>
+  <text x="60" y="60" font-family="Segoe UI, Arial, sans-serif" font-size="32" font-weight="700" fill="#1d2a44">IMD Log Utils - podstawowy przeplyw pracy</text>
+  <rect x="60" y="120" width="220" height="220" rx="22" fill="#dceeff" stroke="#2b6cb0" stroke-width="3"/>
+  <circle cx="105" cy="165" r="24" fill="#2b6cb0"/>
+  <text x="97" y="174" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">1</text>
+  <text x="85" y="220" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">Wybierz</text>
+  <text x="88" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">stacje</text>
+  <text x="84" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Dodaj lub wybierz</text>
+  <text x="84" y="326" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">charging station</text>
+  <rect x="350" y="120" width="220" height="220" rx="22" fill="#e7f8e8" stroke="#2f855a" stroke-width="3"/>
+  <circle cx="395" cy="165" r="24" fill="#2f855a"/>
+  <text x="387" y="174" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">2</text>
+  <text x="396" y="220" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">Wczytaj</text>
+  <text x="416" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">logi</text>
+  <text x="375" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Pojedynczo lub</text>
+  <text x="378" y="326" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">calym folderem</text>
+  <rect x="640" y="120" width="220" height="220" rx="22" fill="#fff6d6" stroke="#b7791f" stroke-width="3"/>
+  <circle cx="685" cy="165" r="24" fill="#b7791f"/>
+  <text x="677" y="174" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">3</text>
+  <text x="678" y="220" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">Odswiez</text>
+  <text x="690" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">serie</text>
+  <text x="671" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Zakladka</text>
+  <text x="670" y="326" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Wizualizacja</text>
+  <rect x="930" y="120" width="220" height="220" rx="22" fill="#fde2e7" stroke="#c53030" stroke-width="3"/>
+  <circle cx="975" cy="165" r="24" fill="#c53030"/>
+  <text x="967" y="174" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">4</text>
+  <text x="974" y="220" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">Rysuj</text>
+  <text x="960" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#1d2a44">wykres</text>
+  <text x="963" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Wybierz serie</text>
+  <text x="961" y="326" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">i kliknij Plot</text>
+  <path d="M280 230 H350" stroke="#475569" stroke-width="6" fill="none"/>
+  <path d="M570 230 H640" stroke="#475569" stroke-width="6" fill="none"/>
+  <path d="M860 230 H930" stroke="#475569" stroke-width="6" fill="none"/>
+  <polygon points="340,220 360,230 340,240" fill="#475569"/>
+  <polygon points="630,220 650,230 630,240" fill="#475569"/>
+  <polygon points="920,220 940,230 920,240" fill="#475569"/>
+  <text x="60" y="420" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#334155">Najkrotsza sciezka: wybierz stacje -> wczytaj logi -> Refresh series -> Plot selected series.</text>
+</svg>

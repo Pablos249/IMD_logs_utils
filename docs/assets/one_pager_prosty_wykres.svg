@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f8fafc"/>
+  <text x="60" y="60" font-family="Segoe UI, Arial, sans-serif" font-size="32" font-weight="700" fill="#1e293b">Jak wygenerowac prosty wykres</text>
+  <rect x="60" y="110" width="1080" height="580" rx="24" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <rect x="90" y="145" width="1020" height="70" rx="14" fill="#eef2ff"/>
+  <text x="115" y="188" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#1e293b">1. Wybierz stacje  |  2. Otworz zakladke Wizualizacja  |  3. Kliknij Refresh series</text>
+  <rect x="90" y="245" width="300" height="390" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="115" y="285" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" fill="#0f172a">Lista serii</text>
+  <rect x="115" y="315" width="250" height="42" rx="8" fill="#dbeafe"/>
+  <text x="128" y="342" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#1e293b">IMD | imd_voltage | CCS1 [V]</text>
+  <rect x="115" y="372" width="250" height="42" rx="8" fill="#dbeafe"/>
+  <text x="128" y="399" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#1e293b">EOS | current_outlet | session [A]</text>
+  <rect x="115" y="429" width="250" height="42" rx="8" fill="#e2e8f0"/>
+  <text x="128" y="456" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#1e293b">CLC | rectifier_voltage | DC [V]</text>
+  <rect x="115" y="504" width="250" height="52" rx="10" fill="#2563eb"/>
+  <text x="148" y="537" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff">Plot selected series</text>
+  <circle cx="370" cy="295" r="24" fill="#2563eb"/>
+  <text x="362" y="304" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">1</text>
+  <text x="115" y="592" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Zaznacz jedna lub kilka serii.</text>
+  <rect x="430" y="245" width="650" height="390" rx="18" fill="#fffef8" stroke="#94a3b8" stroke-width="2"/>
+  <text x="455" y="285" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" fill="#0f172a">Podglad wykresu</text>
+  <line x1="485" y1="560" x2="1030" y2="560" stroke="#64748b" stroke-width="3"/>
+  <line x1="485" y1="330" x2="485" y2="560" stroke="#64748b" stroke-width="3"/>
+  <path d="M500 520 C560 500, 610 440, 670 460 S790 530, 860 410 S970 360, 1020 390" fill="none" stroke="#dc2626" stroke-width="5"/>
+  <path d="M500 540 C560 545, 620 500, 680 490 S790 450, 860 470 S950 430, 1020 435" fill="none" stroke="#2563eb" stroke-width="5"/>
+  <circle cx="470" cy="295" r="24" fill="#dc2626"/>
+  <text x="462" y="304" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">2</text>
+  <text x="500" y="605" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Po kliknieciu przycisku wykres pojawia sie po prawej stronie.</text>
+  <text x="60" y="725" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#334155">Jesli lista serii jest pusta, najpierw sprawdz stacje i kliknij Refresh series.</text>
+</svg>

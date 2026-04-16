@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f8fafc"/>
+  <text x="60" y="60" font-family="Segoe UI, Arial, sans-serif" font-size="32" font-weight="700" fill="#1e293b">Jak zrobic wykres jednej sesji EOS</text>
+  <rect x="60" y="110" width="1080" height="580" rx="24" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <rect x="95" y="150" width="1010" height="110" rx="18" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+  <text x="120" y="190" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#1e293b">Ustawienia nad wykresem</text>
+  <rect x="130" y="205" width="240" height="34" rx="8" fill="#bfdbfe"/>
+  <text x="145" y="227" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#1e293b">Mode: EOS charging session</text>
+  <rect x="405" y="205" width="390" height="34" rx="8" fill="#dbeafe"/>
+  <text x="420" y="227" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#1e293b">Transaction: TX-2026-04-15 08:12 - 08:56</text>
+  <rect x="830" y="205" width="120" height="34" rx="8" fill="#dbeafe"/>
+  <text x="847" y="227" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#1e293b">Padding: 5</text>
+  <circle cx="1030" cy="205" r="24" fill="#2563eb"/>
+  <text x="1022" y="214" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">1</text>
+  <text x="980" y="240" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#334155">Wybierz transakcje</text>
+  <rect x="95" y="295" width="1010" height="340" rx="18" fill="#fffef8" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="145" y1="585" x2="1050" y2="585" stroke="#64748b" stroke-width="3"/>
+  <line x1="145" y1="345" x2="145" y2="585" stroke="#64748b" stroke-width="3"/>
+  <line x1="340" y1="345" x2="340" y2="585" stroke="#16a34a" stroke-width="4" stroke-dasharray="10 8"/>
+  <line x1="830" y1="345" x2="830" y2="585" stroke="#dc2626" stroke-width="4" stroke-dasharray="10 8"/>
+  <path d="M170 525 C250 520, 280 470, 360 450 S510 430, 570 410 S720 360, 820 345 S930 370, 1010 390" fill="none" stroke="#2563eb" stroke-width="5"/>
+  <path d="M170 555 C240 548, 300 540, 360 500 S480 430, 560 420 S710 395, 810 392 S940 420, 1010 415" fill="none" stroke="#d97706" stroke-width="5"/>
+  <circle cx="885" cy="320" r="24" fill="#dc2626"/>
+  <text x="877" y="329" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">2</text>
+  <text x="865" y="610" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Zielona linia = start sesji</text>
+  <text x="865" y="635" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">Czerwona linia = koniec sesji</text>
+  <text x="120" y="675" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#334155">Tryb sesji przydaje sie do korelacji roznych zrodel danych tylko w obrebie jednego ladowania.</text>
+</svg>
