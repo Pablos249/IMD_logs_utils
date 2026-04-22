@@ -106,7 +106,7 @@ class CLCLogParser:
                 metric_value REAL,
                 metric_unit TEXT,
                 metric_scope TEXT,
-                raw_line TEXT NOT NULL
+                entry_id INTEGER
             )
             """
         )
@@ -134,7 +134,98 @@ class CLCLogParser:
             "CREATE INDEX IF NOT EXISTS idx_clc_measurements_catalog "
             "ON clc_measurements(station_id, metric_name, metric_scope, metric_unit)"
         )
+        self._migrate_measurements_storage()
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_clc_measurements_entry "
+            "ON clc_measurements(entry_id)"
+        )
         self.db_connection.commit()
+
+    def _migrate_measurements_storage(self):
+        cursor = self.db_connection.cursor()
+        cursor.execute("PRAGMA table_info(clc_measurements)")
+        existing_columns = {row[1] for row in cursor.fetchall()}
+        needs_rebuild = "raw_line" in existing_columns or "entry_id" not in existing_columns
+        if not needs_rebuild:
+            return
+
+        cursor.execute("ALTER TABLE clc_measurements RENAME TO clc_measurements_legacy")
+        cursor.execute(
+            """
+            CREATE TABLE clc_measurements (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                station_id INTEGER,
+                file_name TEXT NOT NULL,
+                file_hash TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                logger_name TEXT,
+                level TEXT,
+                metric_name TEXT NOT NULL,
+                metric_value REAL,
+                metric_unit TEXT,
+                metric_scope TEXT,
+                entry_id INTEGER
+            )
+            """
+        )
+        cursor.execute(
+            """
+            INSERT INTO clc_measurements (
+                id, station_id, file_name, file_hash, timestamp, logger_name, level,
+                metric_name, metric_value, metric_unit, metric_scope, entry_id
+            )
+            SELECT
+                legacy.id,
+                legacy.station_id,
+                legacy.file_name,
+                legacy.file_hash,
+                legacy.timestamp,
+                legacy.logger_name,
+                legacy.level,
+                legacy.metric_name,
+                legacy.metric_value,
+                legacy.metric_unit,
+                legacy.metric_scope,
+                (
+                    SELECT MIN(entry.id)
+                    FROM clc_log_entries AS entry
+                    WHERE entry.station_id IS legacy.station_id
+                      AND entry.file_hash = legacy.file_hash
+                      AND entry.timestamp = legacy.timestamp
+                      AND ifnull(entry.logger_name, '') = ifnull(legacy.logger_name, '')
+                      AND ifnull(entry.level, '') = ifnull(legacy.level, '')
+                      AND (
+                          NOT EXISTS (
+                              SELECT 1
+                              FROM pragma_table_info('clc_measurements_legacy')
+                              WHERE name = 'raw_line'
+                          )
+                          OR entry.raw_line = legacy.raw_line
+                      )
+                ) AS entry_id
+            FROM clc_measurements_legacy AS legacy
+            """
+        )
+        cursor.execute("DROP TABLE clc_measurements_legacy")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_clc_measurements_series "
+            "ON clc_measurements(station_id, metric_name, metric_scope, timestamp)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_clc_measurements_catalog "
+            "ON clc_measurements(station_id, metric_name, metric_scope, metric_unit)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_clc_measurements_entry "
+            "ON clc_measurements(entry_id)"
+        )
+        self.db_connection.commit()
+        try:
+            self.db_connection.execute("VACUUM")
+        except sqlite3.OperationalError:
+            # Rebuilding the file may require substantial free disk space.
+            # Keep the migrated schema even if compaction must be deferred.
+            pass
 
     def parse(
         self,
@@ -184,13 +275,14 @@ class CLCLogParser:
                         raw_line,
                     ),
                 )
+                entry_id = cursor.lastrowid
 
                 for measurement in self._extract_measurements(parsed):
                     cursor.execute(
                         """
                         INSERT INTO clc_measurements
                         (station_id, file_name, file_hash, timestamp, logger_name, level,
-                         metric_name, metric_value, metric_unit, metric_scope, raw_line)
+                         metric_name, metric_value, metric_unit, metric_scope, entry_id)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """,
                         (
@@ -204,7 +296,7 @@ class CLCLogParser:
                             measurement["metric_value"],
                             measurement["metric_unit"],
                             measurement["metric_scope"],
-                            raw_line,
+                            entry_id,
                         ),
                     )
 
@@ -571,6 +663,10 @@ class CLCLogParser:
 
         self.db_connection.commit()
         return deleted
+
+    def compact_database(self):
+        self.db_connection.commit()
+        self.db_connection.execute("VACUUM")
 
     def close(self):
         if self.db_connection:
