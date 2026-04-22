@@ -15,6 +15,9 @@ from src.app_paths import database_path
 class CLCLogParser:
     """Parser for CLC logs with simple metric extraction."""
 
+    COMMIT_EVERY_ROWS = 10000
+    PROGRESS_EVERY_ROWS = 500
+
     LINE_PATTERN = re.compile(
         r"^\[(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})\] "
         r"\[(?P<logger>[^\]]+)\] \[(?P<level>[^\]]+)\] (?P<message>.*)$"
@@ -75,6 +78,10 @@ class CLCLogParser:
 
         self.db_connection = sqlite3.connect(self.db_path)
         self.db_connection.row_factory = sqlite3.Row
+        self.db_connection.execute("PRAGMA journal_mode=WAL")
+        self.db_connection.execute("PRAGMA synchronous=NORMAL")
+        self.db_connection.execute("PRAGMA temp_store=MEMORY")
+        self.db_connection.execute("PRAGMA cache_size=-20000")
         cursor = self.db_connection.cursor()
 
         cursor.execute(
@@ -246,16 +253,16 @@ class CLCLogParser:
             return 0
 
         with open(logfile, "r", encoding="utf-8", errors="ignore") as handle:
-            total_lines = sum(1 for _ in handle)
-            handle.seek(0)
-
+            total_bytes = max(1, os.path.getsize(logfile))
             inserted = 0
-            for line_number, raw_line in enumerate(handle, start=1):
+            rows_since_commit = 0
+            cursor.execute("BEGIN")
+            for line_number, raw_line in enumerate(iter(handle.readline, ""), start=1):
                 raw_line = raw_line.rstrip("\n")
                 parsed = self._parse_line(raw_line)
                 if parsed is None:
-                    if progress_callback:
-                        progress_callback(line_number, total_lines)
+                    if progress_callback and line_number % self.PROGRESS_EVERY_ROWS == 0:
+                        progress_callback(handle.tell(), total_bytes)
                     continue
 
                 cursor.execute(
@@ -301,10 +308,13 @@ class CLCLogParser:
                     )
 
                 inserted += 1
-                if line_number % 1000 == 0:
+                rows_since_commit += 1
+                if rows_since_commit >= self.COMMIT_EVERY_ROWS:
                     self.db_connection.commit()
-                if progress_callback:
-                    progress_callback(line_number, total_lines)
+                    cursor.execute("BEGIN")
+                    rows_since_commit = 0
+                if progress_callback and line_number % self.PROGRESS_EVERY_ROWS == 0:
+                    progress_callback(handle.tell(), total_bytes)
 
         cursor.execute(
             """
@@ -314,6 +324,8 @@ class CLCLogParser:
             (station_id, file_name, file_hash, datetime.utcnow().isoformat()),
         )
         self.db_connection.commit()
+        if progress_callback:
+            progress_callback(total_bytes, total_bytes)
         return inserted
 
     def _calculate_file_hash(self, filepath: str) -> str:

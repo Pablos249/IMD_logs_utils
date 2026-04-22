@@ -14,6 +14,18 @@ def app_root() -> Path:
     return _project_root()
 
 
+def bundled_path(*relative_parts: str) -> Path:
+    relative_path = Path(*relative_parts)
+    candidates = [
+        app_root() / relative_path,
+        _project_root() / relative_path,
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[0]
+
+
 def data_root() -> Path:
     path = app_root() / "portable_data"
     path.mkdir(parents=True, exist_ok=True)

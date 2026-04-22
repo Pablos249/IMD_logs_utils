@@ -3,7 +3,8 @@ import sys
 import time
 
 from PyQt5 import QtWidgets, QtCore
-from src.app_paths import settings_path, startup_profile_log_path
+
+from src.app_paths import bundled_path, settings_path, startup_profile_log_path
 from src.app_info import APP_DESCRIPTION, APP_NAME, APP_VERSION, about_html, build_display_version
 from src.ui.analysis_tab import AnalysisTab, SinglePlotAnalysisTab
 from src.ui.bulk_import_tab import BulkImportTab
@@ -58,6 +59,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _create_menu(self):
         help_menu = self.menuBar().addMenu("&Pomoc")
+
+        user_manual_action = QtWidgets.QAction("&Instrukcja uzytkownika", self)
+        user_manual_action.triggered.connect(self._open_user_manual)
+        help_menu.addAction(user_manual_action)
+
+        changelog_action = QtWidgets.QAction("&Changelog", self)
+        changelog_action.triggered.connect(self._open_changelog)
+        help_menu.addAction(changelog_action)
+
+        help_menu.addSeparator()
 
         about_action = QtWidgets.QAction("&O aplikacji...", self)
         about_action.triggered.connect(self._show_about_dialog)
@@ -134,11 +145,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.add_station_btn.clicked.connect(self._add_new_station)
         top_bar.addWidget(self.add_station_btn)
 
+        top_bar.addStretch()
+
+        self.manual_btn = QtWidgets.QPushButton("Instrukcja")
+        self.manual_btn.clicked.connect(self._open_user_manual)
+        top_bar.addWidget(self.manual_btn)
+
+        self.changelog_btn = QtWidgets.QPushButton("Changelog")
+        self.changelog_btn.clicked.connect(self._open_changelog)
+        top_bar.addWidget(self.changelog_btn)
+
         self.help_btn = QtWidgets.QPushButton("Pomoc")
         self.help_btn.clicked.connect(self._show_about_dialog)
         top_bar.addWidget(self.help_btn)
-        
-        top_bar.addStretch()
+
         main_layout.addLayout(top_bar)
         self._startup_checkpoint("Top bar created")
         
@@ -230,6 +250,59 @@ class MainWindow(QtWidgets.QMainWindow):
                 f"Wszystkie ustawienia i bazy danych są zapisywane tutaj:\n{data_path}"
             ),
         )
+
+    def _open_user_manual(self):
+        self._open_local_document(
+            bundled_path("docs", "instrukcja_uzytkownika_pl.md"),
+            "Instrukcja uzytkownika",
+        )
+
+    def _open_changelog(self):
+        self._open_local_document(
+            bundled_path("CHANGELOG.md"),
+            "Changelog",
+        )
+
+    def _open_local_document(self, path, label: str):
+        if not path.exists():
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Brak pliku",
+                f"Nie znaleziono pliku: {path}",
+            )
+            return
+
+        try:
+            content = path.read_text(encoding="utf-8")
+        except OSError as exc:
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Nie mozna otworzyc pliku",
+                f"Nie udalo sie odczytac dokumentu {label}:\n{path}\n\n{exc}",
+            )
+            return
+
+        dialog = QtWidgets.QDialog(self)
+        dialog.setWindowTitle(label)
+        dialog.resize(960, 720)
+
+        layout = QtWidgets.QVBoxLayout(dialog)
+
+        header_label = QtWidgets.QLabel(f"{label}\n{path}")
+        header_label.setWordWrap(True)
+        layout.addWidget(header_label)
+
+        viewer = QtWidgets.QPlainTextEdit(dialog)
+        viewer.setReadOnly(True)
+        viewer.setPlainText(content)
+        layout.addWidget(viewer)
+
+        button_box = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Close, parent=dialog)
+        button_box.rejected.connect(dialog.reject)
+        button_box.accepted.connect(dialog.accept)
+        layout.addWidget(button_box)
+
+        dialog.exec_()
 
     def _update_station_combo(self):
         """Refresh station dropdown"""

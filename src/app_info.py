@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 APP_NAME = "IMD Log Utils"
-APP_VERSION = "0.1.1"
+APP_VERSION = "0.1.2"
 APP_DESCRIPTION = (
     "Narzedzie do importu, przegladania i wizualizacji logow IMD, CLC, "
     "Conditioning, CCS oraz EOS."

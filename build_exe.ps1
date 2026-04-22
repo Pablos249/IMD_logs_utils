@@ -12,6 +12,8 @@ if (-not (Test-Path $python)) {
     --windowed `
     --name IMDLogUtils `
     --paths . `
+    --add-data "docs;docs" `
+    --add-data "CHANGELOG.md;." `
     src\main.py
 
 Write-Host ""
